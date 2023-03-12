@@ -1,5 +1,7 @@
 # Formation
 
+Ideally, maintain a formik like api while only re-rendering the components that need to be re-rendered.
+
 ## Inspiration
 
 I've been working with Formik in a B2B SaaS application and I really like the Formik API. However, there is an
@@ -9,6 +11,31 @@ on how to use context with useSyncExternalStore and I wanted to try implementing
 ### Credits
 
 [Making React Context FAST! by Jack Herrington](https://www.youtube.com/watch?v=ZKlXqrcBx88)
+
+## My Concern
+
+I am concerned with perf as I have 2 Providers, one to store the 'state' of the form and another to avoid prop drilling
+with the `StoreContext`
+
+```tsx
+function Formation({
+  children,
+  onSubmit,
+}: {
+  children: ReactNode;
+  onSubmit: (values: any) => void;
+}) {
+  return (
+    <StoreContext.Provider value={useStoreData()}>
+      <FormationContext.Provider
+        value={{ Context: StoreContext, initialState, onSubmit }}
+      >
+        {children}
+      </FormationContext.Provider>
+    </StoreContext.Provider>
+  );
+}
+```
 
 # Example Usage
 
