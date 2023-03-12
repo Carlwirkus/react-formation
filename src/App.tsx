@@ -1,7 +1,7 @@
-import createFormation from "./context/FormationContext";
 import { useField } from "./hooks/useField";
 import { Form } from "./components/Form";
 import { useForm } from "./hooks/useForm";
+import { createFormation } from "./context/createFormation";
 
 const { Formation } = createFormation({
   first: "",

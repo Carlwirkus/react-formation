@@ -1,11 +1,12 @@
 import { useContext, useSyncExternalStore } from "react";
 import { FormationContext } from "../context/FormationContext";
+import { getIn, setIn } from "../utils/utils";
 
 export function useField(name: string) {
   const { Context, initialState } = useContext(FormationContext);
   const store = useContext(Context);
 
-  const selector = (store: any) => store[name];
+  const selector = (store: any) => getIn(store, name);
 
   const state = useSyncExternalStore(
     store.subscribe,
@@ -14,7 +15,7 @@ export function useField(name: string) {
   );
 
   const setValue = (value: any) => {
-    store.set({ [name]: value });
+    store.set(name, value);
   };
 
   return {
