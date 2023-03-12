@@ -1,6 +1,6 @@
 import { useContext, useSyncExternalStore } from "react";
 import { FormationContext } from "../context/FormationContext";
-import { getIn, setIn } from "../utils/utils";
+import { getIn } from "../utils/utils";
 
 export function useField(name: string) {
   const { Context, initialState } = useContext(FormationContext);

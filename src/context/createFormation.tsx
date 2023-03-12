@@ -28,7 +28,9 @@ export function createFormation<Store>(initialState: Store) {
     const subscribers = useRef(new Set<() => void>());
 
     const set = useCallback((name: string, value: any) => {
-      setIn(valuesStore.current, name, value);
+      const copy = structuredClone(valuesStore.current);
+      setIn(copy, name, value);
+      valuesStore.current = copy;
       subscribers.current.forEach((callback) => callback());
     }, []);
     const subscribe = useCallback((callback: () => void) => {

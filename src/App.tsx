@@ -2,27 +2,56 @@ import { useField } from "./hooks/useField";
 import { Form } from "./components/Form";
 import { useForm } from "./hooks/useForm";
 import { createFormation } from "./context/createFormation";
+import { useEffect, useRef, useState } from "react";
 
 const { Formation } = createFormation({
   first: "",
   last: "",
+  address: {
+    street: "",
+  },
 });
 
-function TextInput({ name }: { name: "first" | "last" }) {
+function TextInput({ name }: { name: string }) {
   const { value, setValue } = useField(name);
+  const renderCount = useRef(0);
+  useEffect(() => {
+    renderCount.current = renderCount.current + 1;
+  });
 
   return (
     <div className="field">
       {name}: <input value={value} onChange={(e) => setValue(e.target.value)} />
+      <span
+        style={{
+          marginLeft: "1rem",
+          color: "red",
+        }}
+      >
+        Renders: {renderCount.current}
+      </span>
     </div>
   );
 }
 
 const Display = ({ name }: { name: "first" | "last" }) => {
   const { value } = useField(name);
+  const renderCount = useRef(0);
+  useEffect(() => {
+    renderCount.current = renderCount.current + 1;
+  });
+
   return (
     <div className="value">
       {name}: {value}
+      <span
+        style={{
+          marginLeft: "1rem",
+          color: "red",
+        }}
+      >
+        Renders: {renderCount.current}
+      </span>
     </div>
   );
 };
@@ -33,6 +62,7 @@ const FormContainer = () => {
       <h5>FormContainer</h5>
       <TextInput name="first" />
       <TextInput name="last" />
+      <TextInput name="address.street" />
     </div>
   );
 };
@@ -55,7 +85,24 @@ const DisplayContainer = () => {
  */
 function ContainerWithUseForm() {
   const { values } = useForm();
-  return <pre>{JSON.stringify(values)}</pre>;
+  const renderCount = useRef(0);
+  useEffect(() => {
+    renderCount.current = renderCount.current + 1;
+  });
+
+  return (
+    <div>
+      <pre>{JSON.stringify(values)}</pre>
+      <span
+        style={{
+          marginLeft: "1rem",
+          color: "red",
+        }}
+      >
+        Renders: {renderCount.current}
+      </span>
+    </div>
+  );
 }
 
 function App() {
